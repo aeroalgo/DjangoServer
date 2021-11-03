@@ -1,0 +1,495 @@
+{% extends 'base.html' %}
+
+{% block title %}
+index page
+{% endblock %}
+{% block content %}
+
+<div class="row">
+    <div class="col-4">
+        <div class="card card-chart">
+            <div class="card-header">
+                <div class="card-category"><h4>Data Base last update {{ last_update }}</h4></div>
+                <div class="card-title"><i class="tim-icons icon-delivery-fast text-info"></i><h5></h5></div>
+            </div>
+            <div class="card-body">
+                <div class="table-full-width table-responsive">
+                    <table class="table-striped">
+                        <form id='download_params_form' onsubmit="return false">
+                            <tr valign=bottom>
+                                <td><label>Биржа</label>
+                                    <select id='select_exchange' class="custom-select">
+                                        <option value="Binance" selected>Binance</option>
+                                        <option value="Okex">Okex</option>
+                                        <option value="Huobi">Huobi</option>
+                                        <option value="Poloniex">Poloniex</option>
+                                    </select>
+                                </td>
+                                <td><label>Секция</label>
+                                    <select id='select_spot_or_future' class="custom-select">
+                                        <option value="SPOT">Spot</option>
+                                        <option value="FUTURES" selected>Futures</option>
+                                    </select>
+                                </td>
+                                <td><label>ТФ</label>
+                                    <select id='select_tf' class="custom-select">
+                                        <option value="1m">1m</option>
+                                        <option value="5m" selected>5m</option>
+                                        <option value="15m">15m</option>
+                                        <option value="4H">4H</option>
+                                        <option value="1D">1D</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <label>Дата от</label>
+                                    <input class="form-control"
+                                           pattern="(0[1-9]|1[0-9]|2[0-9]|3[01]).(0[1-9]|1[012]).[0-9]{4}"
+                                           id="download_start_date" required=""
+                                           type="text" value="ДД.ММ.ГГГГ" onFocus="doClear(this)"
+                                           onBlur="doDefault(this)">
+                                </td>
+                                <td>
+                                    <label>Дата к</label>
+                                    <input class="form-control"
+                                           pattern="(0[1-9]|1[0-9]|2[0-9]|3[01]).(0[1-9]|1[012]).[0-9]{4}"
+                                           id="download_end_date" required="" type="text"
+                                           value="ДД.ММ.ГГГГ" onFocus="doClear(this)"
+                                           onBlur="doDefault(this)">
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <td>
+                                    <button onclick="sendMsg()"
+                                            class="btn btn-fill btn-dark">
+                                        Обновить
+                                    </button>
+                                </td>
+                            </tr>
+                        </form>
+                    </table>
+                    <div align="right"><h5 id="errorDate"></h5></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-8">
+        <div class="card card-chart">
+            <div class="card-header ">
+                <div class="row">
+                    <div class="col-sm-10">
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="chart-area">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="row">
+    <div class="col-lg-4">
+        <div class="card card-chart">
+            <div class="card-header">
+                <h4 class="card-category">Daily Sales</h4>
+                <h5 class="card-title"><i class="tim-icons icon-delivery-fast text-info"></i> 3,500€</h5>
+            </div>
+            <div class="card-body">
+                <div class="chart-area">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="card card-chart">
+            <div class="card-header">
+                <h4 class="card-category">Daily Sales</h4>
+                <h5 class="card-title"><i class="tim-icons icon-delivery-fast text-info"></i> 3,500€</h5>
+            </div>
+            <div class="card-body">
+                <div class="chart-area">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="card card-chart">
+            <div class="card-header">
+                <h4 class="card-category">Completed Tasks</h4>
+                <h5 class="card-title"><i class="tim-icons icon-send text-success"></i> 12,100K</h5>
+            </div>
+            <div class="card-body">
+                <div class="chart-area">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-6 col-md-12">
+        <div class="card card-tasks">
+            <div class="card-header ">
+                <h6 class="title d-inline">Tasks(5)</h6>
+                <p class="card-category d-inline">today</p>
+                <div class="dropdown">
+                    <button type="button" class="btn btn-link dropdown-toggle btn-icon" data-toggle="dropdown">
+                        <i class="tim-icons icon-settings-gear-63"></i>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
+                        <a class="dropdown-item" href="#pablo">Action</a>
+                        <a class="dropdown-item" href="#pablo">Another action</a>
+                        <a class="dropdown-item" href="#pablo">Something else</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body ">
+                <div class="table-full-width table-responsive">
+                    <table class="table">
+                        <tbody>
+                        <tr>
+                            <td>
+                                <div class="form-check">
+                                    <label class="form-check-label">
+                                        <input class="form-check-input" type="checkbox" value="">
+                                        <span class="form-check-sign">
+                            <span class="check"></span>
+                          </span>
+                                    </label>
+                                </div>
+                            </td>
+                            <td>
+                                <p class="title">Update the Documentation</p>
+                                <p class="text-muted">Dwuamish Head, Seattle, WA 8:47 AM</p>
+                            </td>
+                            <td class="td-actions text-right">
+                                <button type="button" rel="tooltip" title="" class="btn btn-link"
+                                        data-original-title="Edit Task">
+                                    <i class="tim-icons icon-pencil"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="form-check">
+                                    <label class="form-check-label">
+                                        <input class="form-check-input" type="checkbox" value="" checked="">
+                                        <span class="form-check-sign">
+                            <span class="check"></span>
+                          </span>
+                                    </label>
+                                </div>
+                            </td>
+                            <td>
+                                <p class="title">GDPR Compliance</p>
+                                <p class="text-muted">The GDPR is a regulation that requires businesses to protect
+                                    the
+                                    personal data and privacy of Europe citizens for transactions that occur within
+                                    EU
+                                    member states.</p>
+                            </td>
+                            <td class="td-actions text-right">
+                                <button type="button" rel="tooltip" title="" class="btn btn-link"
+                                        data-original-title="Edit Task">
+                                    <i class="tim-icons icon-pencil"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="form-check">
+                                    <label class="form-check-label">
+                                        <input class="form-check-input" type="checkbox" value="">
+                                        <span class="form-check-sign">
+                            <span class="check"></span>
+                          </span>
+                                    </label>
+                                </div>
+                            </td>
+                            <td>
+                                <p class="title">Solve the issues</p>
+                                <p class="text-muted">Fifty percent of all respondents said they would be more
+                                    likely to
+                                    shop at a company </p>
+                            </td>
+                            <td class="td-actions text-right">
+                                <button type="button" rel="tooltip" title="" class="btn btn-link"
+                                        data-original-title="Edit Task">
+                                    <i class="tim-icons icon-pencil"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="form-check">
+                                    <label class="form-check-label">
+                                        <input class="form-check-input" type="checkbox" value="">
+                                        <span class="form-check-sign">
+                            <span class="check"></span>
+                          </span>
+                                    </label>
+                                </div>
+                            </td>
+                            <td>
+                                <p class="title">Release v2.0.0</p>
+                                <p class="text-muted">Ra Ave SW, Seattle, WA 98116, SUA 11:19 AM</p>
+                            </td>
+                            <td class="td-actions text-right">
+                                <button type="button" rel="tooltip" title="" class="btn btn-link"
+                                        data-original-title="Edit Task">
+                                    <i class="tim-icons icon-pencil"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="form-check">
+                                    <label class="form-check-label">
+                                        <input class="form-check-input" type="checkbox" value="">
+                                        <span class="form-check-sign">
+                            <span class="check"></span>
+                          </span>
+                                    </label>
+                                </div>
+                            </td>
+                            <td>
+                                <p class="title">Export the processed files</p>
+                                <p class="text-muted">The report also shows that consumers will not easily forgive a
+                                    company once a breach exposing their personal data occurs. </p>
+                            </td>
+                            <td class="td-actions text-right">
+                                <button type="button" rel="tooltip" title="" class="btn btn-link"
+                                        data-original-title="Edit Task">
+                                    <i class="tim-icons icon-pencil"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="form-check">
+                                    <label class="form-check-label">
+                                        <input class="form-check-input" type="checkbox" value="">
+                                        <span class="form-check-sign">
+                            <span class="check"></span>
+                          </span>
+                                    </label>
+                                </div>
+                            </td>
+                            <td>
+                                <p class="title">Arival at export process</p>
+                                <p class="text-muted">Capitol Hill, Seattle, WA 12:34 AM</p>
+                            </td>
+                            <td class="td-actions text-right">
+                                <button type="button" rel="tooltip" title="" class="btn btn-link"
+                                        data-original-title="Edit Task">
+                                    <i class="tim-icons icon-pencil"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6 col-md-12">
+        <div class="card ">
+            <div class="card-header">
+                <h4 class="card-title"> Simple Table</h4>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table tablesorter " id="">
+                        <thead class=" text-primary">
+                        <tr>
+                            <th>
+                                Name
+                            </th>
+                            <th>
+                                Country
+                            </th>
+                            <th>
+                                City
+                            </th>
+                            <th class="text-center">
+                                Salary
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>
+                                Dakota Rice
+                            </td>
+                            <td>
+                                Niger
+                            </td>
+                            <td>
+                                Oud-Turnhout
+                            </td>
+                            <td class="text-center">
+                                $36,738
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Minerva Hooper
+                            </td>
+                            <td>
+                                Curaçao
+                            </td>
+                            <td>
+                                Sinaai-Waas
+                            </td>
+                            <td class="text-center">
+                                $23,789
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Sage Rodriguez
+                            </td>
+                            <td>
+                                Netherlands
+                            </td>
+                            <td>
+                                Baileux
+                            </td>
+                            <td class="text-center">
+                                $56,142
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Philip Chaney
+                            </td>
+                            <td>
+                                Korea, South
+                            </td>
+                            <td>
+                                Overland Park
+                            </td>
+                            <td class="text-center">
+                                $38,735
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Doris Greene
+                            </td>
+                            <td>
+                                Malawi
+                            </td>
+                            <td>
+                                Feldkirchen in Kärnten
+                            </td>
+                            <td class="text-center">
+                                $63,542
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Mason Porter
+                            </td>
+                            <td>
+                                Chile
+                            </td>
+                            <td>
+                                Gloucester
+                            </td>
+                            <td class="text-center">
+                                $78,615
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Jon Porter
+                            </td>
+                            <td>
+                                Portugal
+                            </td>
+                            <td>
+                                Gloucester
+                            </td>
+                            <td class="text-center">
+                                $98,615
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"
+        integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA=="
+        crossorigin="anonymous"></script>
+<script type="text/javascript" charset="utf-8">
+        function doClear(theText) {
+            if (theText.value == theText.defaultValue) {
+                theText.value = ""
+            }
+        }
+
+        function doDefault(theText) {
+            if (theText.value == "") {
+                theText.value = theText.defaultValue
+            }
+        }
+
+        var socket = io()
+
+        function isValid(value) {
+            if (value.value.length > 0) {
+                return !value.validity.patternMismatch;
+            }
+            return false;
+        }
+
+        function dateToUnix(date) {
+            let dateParts = date.split(".");
+            let dateObject = new Date(Date.UTC(+dateParts[2], dateParts[1] - 1, +dateParts[0])).getTime() / 1000;
+            return dateObject
+        }
+
+        function sendMsg() {
+            document.getElementById('errorDate').innerHTML = ''
+
+
+            let exchange = document.getElementById('select_exchange');
+            let spot_or_future = document.getElementById('select_spot_or_future');
+            let timeframe = document.getElementById('select_tf');
+            let start_date = document.getElementById('download_start_date');
+            let end_date = document.getElementById('download_end_date');
+            let isStartDateValid = isValid(start_date)
+            let isEndDateValid = isValid(end_date)
+            let unixStartDate = dateToUnix(start_date.value)
+            let unixEndDate = dateToUnix(end_date.value)
+            console.log(unixEndDate)
+            if (isStartDateValid && isEndDateValid) {
+                if (unixEndDate > unixStartDate) {
+                    socket.emit("db_socket", {
+                        'download_history': 'download',
+                        exchange: exchange.value,
+                        spot_or_future: spot_or_future,
+                        timeframe: timeframe.value,
+                        start: start_date.value,
+                        end: end_date.value
+                    });
+                } else {
+                    document.getElementById('errorDate').innerHTML = 'The start date must be less than the end date';
+                }
+            } else {
+            }
+        }
+
+
+
+
+
+
+</script>
+{% endblock content %}
