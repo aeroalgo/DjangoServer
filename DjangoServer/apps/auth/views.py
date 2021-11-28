@@ -9,16 +9,15 @@ from .forms import AuthUserForm, RegisterUserForm
 class MyprojectLoginView(LoginView):
     template_name = 'auth/login.html'
     form_class = AuthUserForm
-    success_url = reverse_lazy('login/')
+    success_url = reverse_lazy('index')
     def get_success_url(self):
         return self.success_url
-
 
 class RegisterUserView(CreateView):
     model = User
     template_name = 'auth/register.html'
     form_class = RegisterUserForm
-    success_url = reverse_lazy('edit_page')
+    success_url = reverse_lazy('index')
     success_msg = 'Пользователь успешно создан'
 
     def form_valid(self, form):
@@ -31,4 +30,4 @@ class RegisterUserView(CreateView):
 
 
 class MyProjectLogout(LogoutView):
-    next_page = reverse_lazy('edit_page')
+    next_page = reverse_lazy('login_page')

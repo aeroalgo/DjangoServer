@@ -12,19 +12,19 @@
             <div class="card">
                 <form role="form" method="post" action="">
                     {% csrf_token %}
-                    {#          {{ form.hidden_tag() }} #}
-
                     <div class="card-header">
                         <h5 class="title">Login</h5>
-
+                        {% if form.errors %}
+                            {% for field in form %}
+                                {% for error in field.errors %}
+                                    <span class="text-danger">{{ error|escape }}</span>
+                                {% endfor %}
+                            {% endfor %}
+                            {% for error in form.non_field_errors %}
+                                <span class="text-danger">{{ error|escape }}</span>
+                            {% endfor %}
+                        {% endif %}
                         <h6 class="card-category">
-                            {#                {% if msg %}#}
-                            {#                  <span class="text-danger">{{ msg | safe }}</span>#}
-                            {#                {% else %}#}
-                            {#                <span>#}
-                            {#                  Add your credentials#}
-                            {#                </span>#}
-                            {#                {% endif %}  #}
                         </h6>
                     </div>
 
@@ -53,9 +53,9 @@
 
                     </div>
                     <div class="card-footer">
-                        <button type="submit" name="login" class="btn btn-fill btn-primary">Login</button>
+                        <button type="submit" name="login" class="btn btn-fill btn-dark">Login</button>
                         &nbsp; &nbsp;
-                        Don't have an account? <a href="/register" class="text-primary">Create</a>
+                        Don't have an account? <a href="/auth/register" class="text-primary">Create</a>
                     </div>
 
                 </form>
